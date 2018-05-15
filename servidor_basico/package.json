@@ -1,0 +1,19 @@
+{
+  "name": "servidor_basico",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "servidor",
+    "basico",
+    "nodejs"
+  ],
+  "author": "Miguel",
+  "license": "ISC",
+  "dependencies": {
+    "chance": "^1.0.16"
+  }
+}
