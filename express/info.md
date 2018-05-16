@@ -15,3 +15,15 @@ NO OLVIDAR CREAR EL ARCHIVO .gitignore o usar el modificador --git y añadir la 
 Para ejecutar el proyecto, ejecutar *npm start*. Se crea un servidor en localhost en el puerto 3000.
 
 El archivo www de la aplicación es el que se encarga de ejecutar el proyecto.
+
+Para cambiar el puerto en el que se arranca el servidor (está configurado en el archivo www), hay que cambiar la variable de entorno del SO ejecutando *PORT=1234 npm start*.
+
+Para añadir una ejecución del proyecto personalizada, hay que editar el archivo package.json añadiendo un nuevo script, ejemplo:
+*"dev": "DEBUG=nodeapi:* node ./bin/www"* (no olvidar la coma anterior).
+Ya se podría ejecutar *npm run dev* arrancando el proyecto con las condiciones definidas.
+
+Es **importante** instalar la librería cross-env para hacer compatible el código con múltiples sitemas operativos.
+*npm i cross-env*
+
+Si se instala la librería la línea quedaría:
+*"dev": "cross-env DEBUG=nodeapi:* node ./bin/www"*
