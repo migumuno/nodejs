@@ -27,3 +27,14 @@ Es **importante** instalar la librería cross-env para hacer compatible el códi
 
 Si se instala la librería la línea quedaría:
 *"dev": "cross-env DEBUG=nodeapi:* node ./bin/www"*
+
+## Variables de entorno
+Se pueden establecer variables de entorno:
+*NODE_ENV=production npm start* Así podemos saber en qué entorno estamos
+*DEBUG=nombreApp:\* PORT=3001 NODE_ENV=production npm start*
+- log debug activado
+- puerto 3001
+- variable de entorno production
+
+## Middlewares
+Es un handler que se activa ante unas determinadas peticiones o todas, antes de realizar la acción principal de una ruta.
