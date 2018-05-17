@@ -38,3 +38,41 @@ Se pueden establecer variables de entorno:
 
 ## Middlewares
 Es un handler que se activa ante unas determinadas peticiones o todas, antes de realizar la acción principal de una ruta.
+Un router es un grupo de middlewares.
+Hay un middleware especial que recibe un parámetro más, el de error y se pasa el primero (err, req, res, next), el resto de middlewares reciben 3 parámetros (req, res, next).
+Métodos de rutas:
+- GET para pedir datos.
+- POST para crear un recurso.
+- PUT para actualizar un recurso, es idempotente.
+- DELETE para eliminar un recurso.
+- ALL recibe todas las peticiones.
+
+El orden es importante.
+
+### Ficheros estáticos
+Hay un middleware de ficheros estáticos.
+*app.use( express.static( path.join( __dirname, 'public' ) ) );* Se puede ver en app.js. Va a ir a buscar a la carpeta public.
+Es recomendable tener en cuenta el orden ya que en una api no se va a usar y se puede poner lo más abajo posible y así no es necesario hacer esa petición cada vez.
+
+### Recibiendo parámetros
+- En la ruta /users/5
+- Con query string /users?sort=name
+- En el cuerpo de la petición (POST y PUT generalmente)
+- En la cabecera.
+
+*router.get('/paramopcional/:dato?', (req, res, next) => { // lo que sea })* Poniendo el interrogante se pone opcional
+
+*router.get('/param/:id([0-9]+)', (req, res, next) => { // lo que sea })* Valida que el parámetro es de tipo numérico. Las expresiones regulares requieren mayor rendimiento.
+
+*router.put('/param/:id([0-9]+)/piso/:piso/puerta/:puerta([A|B|C])', (req, res, next) => { // lo que sea })* Múltiples parámetros
+
+Para recoger los parámetros por ruta se usa req.param.
+En el caso de los parámetros que se obtienen por query string, se obtienen por req.query y no es necesario poner nada en el middleware.
+
+*router.get('/ruta', (req, res, next) => { console.log( 'req.query', req.query) })* 
+
+Para recoger los parámetros en el cuerpo de la petición (ni GET ni DELETE) usamos req.body. Usar esta forma cuando la URL vaya a ser demasiado larga.
+
+*router.post('/ruta', (req, res, next) => { console.log( 'req.body', req.body) })*
+
+Las peticiones de tipo POST permiten pasar mayor tamaño de parámetros.
