@@ -76,3 +76,31 @@ Para recoger los parámetros en el cuerpo de la petición (ni GET ni DELETE) usa
 *router.post('/ruta', (req, res, next) => { console.log( 'req.body', req.body) })*
 
 Las peticiones de tipo POST permiten pasar mayor tamaño de parámetros.
+
+### Validaciones
+Instalamos una librería para express
+ *npm i express-validator*
+
+ NO OLVIDAR CARGAR LA LIBRERÍA DONDE LA VAYAMOS A USAR
+ *const { query, validationResult } = require( 'express-validator/check' )*
+
+*router.get('/ruta', [
+     query('age')
+        .isNumeric().withMessage( 'debería ser un número' ) // se valida un parámetro age.
+        .custom( (value) => { // esto es una validación personalizada
+            if( value < 18 ) {
+                throw new Error( 'debe ser mayor de edad' );
+            }
+            return true; // es importante devolver true para que no de error.
+        } )
+ ], (req, res, next) => { 
+     validationResult(req).throw(); // esto lanza los mensajes de error, es obligatorio.
+     // lo que sea 
+})*
+
+ES NECESARIO AÑADIR EN EL ERROR HANDLER (AL PRINCIPIO DEL MIDDLEWARE) DE app.js LO SIGUIENTE PARA QUE SE VEAN LOS ERRORES
+*if(err.array) { // validation error
+    err.status = 422;
+    const errInfo = err.array({ onlyFirstError: true })[0]; // muestra solo 1 error, pero se podrían mostrar todos.
+    err.message = `Not valid - ${errInfo.param} ${errInfo.msg}`;
+}*
