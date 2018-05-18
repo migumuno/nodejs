@@ -104,3 +104,58 @@ ES NECESARIO AÑADIR EN EL ERROR HANDLER (AL PRINCIPIO DEL MIDDLEWARE) DE app.js
     const errInfo = err.array({ onlyFirstError: true })[0]; // muestra solo 1 error, pero se podrían mostrar todos.
     err.message = `Not valid - ${errInfo.param} ${errInfo.msg}`;
 }*
+
+### Métodos de respuesta
+El cuerpo de la respuesta puede ser un buffer, un string, un objeto o un array. Express detecta el tipo usado y modifica el Content-Type. Si es un array o un objeto devuelve su representación en JSON.
+
+Se puede encadenar el código de error con el send.
+
+*res.status(404).send('Sorry, we cannot find that!');*
+
+- res.send( 'Holi );
+- res.json( {user: 'tobi'} );
+- res.download( '/report-12345.pdf', 'report.pdf' ); // ruta y nombre (opcional) de descarga.
+- res.redirect( '/foo/bar' ); // relativa a la raíz. Por defecto 302
+- res.redirect( 301, 'http://...' );
+- res.redirect( 'back' ); // vuelve al referer, a la página anterior
+- res.render( 'index', {user: 'Tobi'} ); // renderiza la vista index y pasa el parámetro user
+- res.sendFile( fileName, options ); // envía un fichero como si fuera un estático, no para descargar. Se pueden ver las opciones en http://expressjs.com/en/4x/api.html#res.sendFile
+- res.set( {'Content-Type': 'text/plain'} ); // define las cabeceras para cualquiera de los métodos anteriores.
+
+Se pueden instalar middlewares a través de npm (buscar en expressjs http://expressjs.com/en/resources/middleware.html) y usarlos directamente. Multer está muy bien.
+
+**INTERESANTE** Nodemailer para enviar emails.
+
+## Template engines
+Express por defecto monta Jade, pero se puede cambiar fácilmente al instalar inicialmente o cambiando dos líneas en app.js.
+
+*app.set( 'view engine', 'ejs' );*
+
+El listado de todos los disponibles está en https://www.npmjs.com/package/consolidate#supported-template-engines
+
+Para instalar un motor de plantillas se puede hacer con npm sin problemas.
+
+### Pasar variables
+- Variables globales: app.locals.title = 'Holi'; // Definir en app.js. Están disponibles para todas las vistas
+- Variables locales: res.locals.valor = 32; // Disponible para el middleware donde está definido únicamente.
+- Variables locales definidas en el renderizado: res.render( 'index', {valor: 32} );
+
+Para representar el valor con <%= variable %> // si se sustituye el igual por -, no se escapa el código y puede ser ejecutado.
+
+### Funcionamiento
+Podemos incluir otras plantillas con:
+*<% include otra/plantilla %>*
+
+Se puede escribir código en plantilla:
+*<% if ( // lo que sea ) { %>*
+    // lo que sea
+*<% } %>*
+
+*<%= user.name + ' ' + user.surname %>*
+
+Se puede poner cualquier código válido javascript sin problemas. Intentar poner el mínimo código posible en las vistas.
+
+Se podrían tener las vistas con extensión .html.
+
+*app.set( 'view engine', 'html' );*
+*app.engine( 'html', require('ejs').__express );*
