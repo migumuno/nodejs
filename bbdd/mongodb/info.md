@@ -13,7 +13,7 @@ Nos descargamos la versión Community Server en mongodb.com. Una vez descargada 
 
 *./bin/mongod --dbpath ./data/db --directoryperdb*
 
-La última línea nos indica el puerto donde está esperando la conexión la base de datos (27017).
+La última línea nos indica el puerto donde está esperando la conexión la base de datos (27017). Recomiendo crear un script para ejecutar directamente ese comando sin tener que recordarlo.
 
 Ahora podemos arrancar el manager por terminal desde la carpeta descomprimida de MongoDB:
 
