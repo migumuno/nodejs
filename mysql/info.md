@@ -11,6 +11,6 @@ Los ORMs (Object Relational Mapping) se encarga de:
 - Traducir los resultados de una consulta SQL y generar objetos.
 
 Ejemplos de ORMs:
-- sequelizejs
+- docs.sequelizejs.com
 - Knex
 - Bookshelf
