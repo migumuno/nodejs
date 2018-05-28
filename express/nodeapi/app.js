@@ -4,6 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// Conectamos la BBDD
+require('./lib/connectMongoose');
+
+// Cargamos los modelos para que Mongoose los conozca
+require('./models/Agente');
+
 var app = express();
 
 // view engine setup
@@ -17,8 +23,16 @@ app.use(cookieParser());
 // middleware de archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
+/**
+ * Middlewares de mi aplicación web
+ */
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
+
+/**
+ * Middlewares de mi api
+ */
+app.use( '/apiV1/agentes', require('./routes/apiV1/agentes') );
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
