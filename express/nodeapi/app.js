@@ -47,7 +47,18 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+
+  // Si es una petición de API, respondemos con JSON
+  if( isAPI(req) ) {
+    res.json( { success: false, error: err.message } );
+    return;
+  } else {
+    res.render('error');
+  }  
 });
+
+function isAPI(req) {
+  return req.originalUrl.indexOf( '/apiV' ) === 0;
+}
 
 module.exports = app;
