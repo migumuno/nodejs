@@ -6,8 +6,9 @@ const router = express.Router();
 const Agente = require('../../models/Agente');
 
 // Obtener agentes
-router.get('/', (req, res, next) => {
-    Agente.find().exec( (err, docs) => {
+router.get('/', async (req, res, next) => {
+    // Versión extendida
+    /*Agente.find().exec( (err, docs) => {
         if(err) {
             next(err);
             return;
@@ -15,7 +16,18 @@ router.get('/', (req, res, next) => {
 
         // sino hay error
         res.json({ success: true, result: docs });
-    } );
+    } );*/
+
+    // Con promesas
+    /*Agente.find().exec().then( docs => {
+        res.json({ success: true, result: docs });
+    } ).catch(err => {
+        next(err);
+    });*/
+
+    // Con async await
+    const docs = await Agente.find().exec();
+    res.json({ success: true, result: docs });
 });
 
 // Crear agentes
